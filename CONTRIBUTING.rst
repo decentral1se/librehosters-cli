@@ -9,6 +9,17 @@ the following commands below to perform day-to-day development tasks.
 
 An alternative installation method is provided below however.
 
+.. warning::
+
+    This project uses `black`_ which is a tool that requires Python3.6 in order
+    to run correctly. While we aim for Python 3.5 support from the tool,
+    developers of this tool are required to use Python 3.6. Please see `pyenv`_
+    as a convenient tool to install multiple Python versions without
+    interfering with your system level installation.
+
+    .. _black: https://black.readthedocs.io/en/stable/
+    .. _pyenv: https://github.com/pyenv/pyenv
+
 .. _tox: http://tox.readthedocs.io/
 .. _user package install: https://packaging.python.org/tutorials/installing-packages/#installing-to-the-user-site
 
