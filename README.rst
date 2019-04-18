@@ -19,11 +19,11 @@ librehosters-cli
    :alt: Documentation status
 
 .. image:: https://git.coop/decentral1se/librehosters-cli/librehosters-cli/badges/master/pipeline.svg
-   :target: https://git.coop/decentral1se/librehosters-cli/librehosters-cli/commits/master
+   :target: https://git.coop/decentral1se/librehosters-cli/commits/master
    :alt: CI pipeline status
 
 .. image:: https://git.coop/decentral1se/librehosters-cli/librehosters-cli/badges/master/coverage.svg
-   :target: https://git.coop/decentral1se/librehosters-cli/librehosters-cli/commits/master
+   :target: https://git.coop/decentral1se/librehosters-cli/commits/master
    :alt: Coverage report
 
 Librehosters command line suite
