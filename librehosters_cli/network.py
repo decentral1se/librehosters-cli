@@ -8,7 +8,7 @@ import requests
 from requests.exceptions import RequestException
 
 
-def _get_json(url: typing.Text, timeout: int) -> typing.Dict:
+def _get_json(url: typing.Text, timeout: float) -> typing.Dict:
     """Retrieve JSON payload with the HTTP GET method.
 
     :raises click.ClickException
