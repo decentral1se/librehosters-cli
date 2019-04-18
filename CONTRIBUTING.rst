@@ -4,7 +4,7 @@ Get Involved
 
 We use `tox`_ as the development interface. This means that as a contributor
 you do not have to manage a virtual environment or dependencies. You can safely
-run `pip install --user tox` as a standard `user package install`_ and then use
+run ``pip install --user tox`` as a standard `user package install`_ and then use
 the following commands below to perform day-to-day development tasks.
 
 An alternative installation method is provided below however.
@@ -58,7 +58,7 @@ preference.
 
         No matching distribution found for black
 
-    Then you should try passing the `--pre` option to `pip install`. The
+    Then you should try passing the ``--pre`` option to ``pip install``. The
     `black`_ formatting tool is still in the `beta development`_ phase.
 
     .. _black: https://black.readthedocs.io/en/stable/
