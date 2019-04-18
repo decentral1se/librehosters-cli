@@ -54,7 +54,7 @@ sphinx:
   script:
     - tox -e docs
 
-twine-checkdocs:
+twine:
   stage: packaging
   script:
     - tox -e metadata-release
