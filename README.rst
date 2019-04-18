@@ -18,11 +18,11 @@ librehosters-cli
    :target: https://librehosters-cli.readthedocs.io/en/latest/
    :alt: Documentation status
 
-.. image:: https://git.coop/decentral1se/librehosters-cli/librehosters-cli/badges/master/pipeline.svg
+.. image:: https://git.coop/decentral1se/librehosters-cli/badges/master/pipeline.svg
    :target: https://git.coop/decentral1se/librehosters-cli/commits/master
    :alt: CI pipeline status
 
-.. image:: https://git.coop/decentral1se/librehosters-cli/librehosters-cli/badges/master/coverage.svg
+.. image:: https://git.coop/decentral1se/librehosters-cli/badges/master/coverage.svg
    :target: https://git.coop/decentral1se/librehosters-cli/commits/master
    :alt: Coverage report
 
