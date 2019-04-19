@@ -86,13 +86,24 @@ You add to the `install_requires`_ entry in the `setup.cfg`_.
 Release Process
 ---------------
 
-.. code-block:: bash
-
-    $ git tag x.x.x
-    $ git push --tags
-
 Test release
 ============
+
+See `test.pypi.org/librehosters-cli`_ for latest version number.
+
+Pick a new version and expose it in your terminal:
+
+.. code-block:: bash
+
+    $ export SETUPTOOLS_SCM_PRETEND_VERSION=X.X.X
+
+If you have a development install locally, you can verify:
+
+.. code-block:: bash
+
+    $ libreh --version
+
+Then run the release process:
 
 .. code-block:: bash
 
@@ -103,11 +114,31 @@ Validate that you can install the package:
 
 .. code-block:: bash
 
-    $ pip install -i https://test.pypi.org/simple/ librehosters-cli
+    $ pip install \
+      --index-url https://test.pypi.org/simple \
+      --extra-index-url https://pypi.org/simple \
+      librehosters-cli
     $ pip show librehosters-cli
+
+.. _test.pypi.org/librehosters-cli: https://test.pypi.org/project/librehosters-cli/
 
 Production release
 ==================
+
+Make a new release tag:
+
+.. code-block:: bash
+
+    $ git tag x.x.x
+    $ git push --tags
+
+If you have a development install locally, you can verify:
+
+.. code-block:: bash
+
+    $ libreh --version
+
+Then run the release process:
 
 .. code-block:: bash
 
