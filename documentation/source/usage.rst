@@ -40,7 +40,7 @@ Validate all network member schemas with the latest standardised schema:
 
     $ libreh schema --validate-all 
 
-It is also possible to validate a hosted schema via URL:
+Validate a hosted schema via URL:
 
 .. code-block:: bash
 
