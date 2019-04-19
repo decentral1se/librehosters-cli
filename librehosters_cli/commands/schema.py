@@ -2,7 +2,6 @@
 
 import json
 import typing
-import urllib.parse
 from json.decoder import JSONDecodeError
 
 import click
