@@ -154,12 +154,11 @@ def test_show_schema(runner, mock_schema):
 def test_validate_url_schema(runner, mock_schema, requests_mock):
     from librehosters_cli.commands.schema import schema
 
-    target_domain = 'https://foo.org'
     target_schema_url = 'https://foo.org/librehost.json'
 
     requests_mock.get(target_schema_url, json=mock_schema)
 
-    result = runner.invoke(schema, ['--url', target_domain])
+    result = runner.invoke(schema, ['--url', target_schema_url])
 
     assert result.exit_code == 0
     assert 'validated successfully' in result.output

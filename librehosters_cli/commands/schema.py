@@ -104,12 +104,7 @@ def _load_local_schema(schema: typing.Text) -> typing.Dict:
     help='A librehoster network member',
     type=click.Choice(librehosters_cli_choices),
 )
-@click.option(
-    '-u',
-    '--url',
-    metavar='URL',
-    help='A domain (with HTTP/S scheme) that exposes /librehost.json',
-)
+@click.option('-u', '--url', metavar='URL', help='A hosted schema URL')
 @click.option(
     '-S',
     '--show',
@@ -154,9 +149,7 @@ def schema(
 
     if url:
         try:
-            config.target_schema_url = urllib.parse.urljoin(
-                url, 'librehost.json'
-            )
+            config.target_schema_url = url
             config.target_schema = _get_json(config.target_schema_url)
             _validate_schema(config)
         except (RequestException, JSONDecodeError):
