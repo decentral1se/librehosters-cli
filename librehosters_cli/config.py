@@ -11,7 +11,7 @@ DIRECTORY_URL = 'https://libreho.st/directory.json'
 TIMEOUT = 0.8
 
 
-def normalise_librehoster(librehoster: typing.Text) -> typing.Text:
+def normalise_librehoster_name(librehoster: typing.Text) -> typing.Text:
     """Normalise a single librehosters name.
 
     See `normalise_librehosters` docstring for further documentation.
@@ -40,7 +40,7 @@ def normalise_librehosters() -> typing.List[typing.Text]:
     normalised = []
     directory = _get_json(DIRECTORY_URL, TIMEOUT)
     for librehoster in directory.keys():
-        normalised.append(normalise_librehoster(librehoster))
+        normalised.append(normalise_librehoster_name(librehoster))
     return normalised
 
 
@@ -93,7 +93,7 @@ class Config:
         directory = _get_json(self.directory_url, self.timeout)
         normalised = {}
         for librehoster, hosted_schema in directory.items():
-            normalised_name = normalise_librehoster(librehoster)
+            normalised_name = normalise_librehoster_name(librehoster)
             normalised[normalised_name] = hosted_schema
         return normalised
 
