@@ -37,13 +37,10 @@ def normalise_librehosters() -> typing.List[typing.Text]:
     :raises click.ClickException
     :return A list of normalised librehoster names
     """
-    directory = _get_json(DIRECTORY_URL, TIMEOUT)
-
     normalised = []
-
+    directory = _get_json(DIRECTORY_URL, TIMEOUT)
     for librehoster in directory.keys():
         normalised.append(normalise_librehoster(librehoster))
-
     return normalised
 
 
