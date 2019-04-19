@@ -13,7 +13,8 @@ def test_normalise_librehoster_name():
 def test_normalise_librehoster_names():
     from librehosters_cli.config import normalise_librehosters_names
 
-    assert normalise_librehosters_names() == ['foo-bar', 'bing-bong']
+    for normalised in normalise_librehosters_names():
+        assert normalised in ['foo-bar', 'bing-bong']
 
 
 def test_get_hosted_schema_url(mock_config, mock_directory):
