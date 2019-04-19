@@ -34,10 +34,7 @@ from librehosters_cli.validate import _validate_option_use
 def whois(
     config: Config, librehoster: typing.Text, show: typing.Text
 ) -> typing.Any:
-    """Explore the librehosters network registry.
-
-    Please see https://librehosters-cli.readthedocs.io/ for examples.
-    """
+    """Explore the librehosters network registry."""
     _validate_option_use(librehoster, show)
 
     if show:
@@ -46,13 +43,13 @@ def whois(
         click.echo(tabulate(table, headers=headers, tablefmt='grid'))
 
     if librehoster:
-        hosted_schema = config.get_hosted_schema_url(librehoster)
-        schema = _get_json(hosted_schema, config.timeout)
+        schema = _get_json(config._get_schema_url(librehoster))
 
         table = []
         for key, value in schema.items():
             if not isinstance(value, list):
-                table.append([key, textwrap.fill(str(value), width=50).strip()])
+                formatted = textwrap.fill(str(value), width=50).strip()
+                table.append([key, formatted])
             else:
                 table.append([key, ', '.join(value)])
 

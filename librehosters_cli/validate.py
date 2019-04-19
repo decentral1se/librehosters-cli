@@ -12,8 +12,8 @@ def _validate_option_use(*cli_args) -> typing.Any:
     each other. This validation makes sure that the user is warned about this
     constraint.
 
-    :raises click.ClickException
+    :raises click.UsageError
     """
     if len(list(filter(None, cli_args))) > 1:
         message = 'Cannot use these options together'
-        raise click.ClickException(message)
+        raise click.UsageError(message)
