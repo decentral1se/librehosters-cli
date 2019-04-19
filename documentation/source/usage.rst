@@ -34,7 +34,7 @@ Validate a hosted schema with the latest standardised schema:
 
     $ libreh schema -lh nixnet 
 
-For convenience, it is possible to validate all network member schemas:
+Validate all network member schemas with the latest standardised schema:
 
 .. code-block:: bash
 
