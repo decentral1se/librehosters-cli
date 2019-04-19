@@ -44,9 +44,7 @@ Validate a hosted schema via URL:
 
 .. code-block:: bash
 
-    $ libreh schema -u https://mycollective.org 
-
-Assuming that a ``/librehost.json`` is exposed from this domain.
+    $ libreh schema -u https://mycollective.org/librehost.json
 
 .. note::
 
