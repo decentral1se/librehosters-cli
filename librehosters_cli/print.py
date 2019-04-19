@@ -4,13 +4,9 @@ import typing
 
 import click
 
-from librehosters_cli.config import Config
 
-
-def _success(message: typing.Text, config: Config) -> typing.Any:
-    """Show validation sucess."""
-    if config.colour:
-        styled = click.style(message, fg='green', bold=True)
-        return click.echo(styled)
-
+def _success(message: typing.Text, colour: bool) -> typing.Any:
+    """Show a sucessful message."""
+    if colour:
+        return click.secho(message, fg='green', bold=True)
     return click.echo(message)

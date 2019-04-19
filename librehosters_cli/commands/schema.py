@@ -2,6 +2,7 @@
 
 import json
 import typing
+import urllib.parse
 from json.decoder import JSONDecodeError
 
 import click
@@ -17,85 +18,75 @@ from librehosters_cli.print import _success
 from librehosters_cli.validate import _validate_option_use
 
 
-def _validate_schema_version(
-    standard_schema: typing.Dict,
-    retrieved_schema: typing.Dict,
-    config: Config,
-    schema_id: typing.Text,
-) -> typing.Any:
+def _validate_schema_version(config: Config) -> typing.Any:
     """Validated a schema version.
 
-    :raises click.ClickException
+    :raises click.UsageError
     """
     try:
-        standard_schema_version = standard_schema['version']
+        standard_schema_version = config.standard_schema['version']
     except KeyError:
-        message = 'Unable to retrieve version from {}'.format(config.schema_url)
-        raise click.UsageError(message)
+        message = 'Unable to retrieve version from {}'
+        raise click.UsageError(message.format(config.standard_schema_url))
 
     try:
-        retrieved_schema_version = retrieved_schema['version']
+        retrieved_schema_version = config.target_schema['version']
     except KeyError:
-        message = 'Unable to retrieve version from {}'.format(schema_id)
-        raise click.UsageError(message)
+        message = 'Unable to retrieve version from {}'
+        raise click.UsageError(message.format(config.target_schema_url))
 
     if standard_schema_version != retrieved_schema_version:
-        message = '{} has version {} and {} schema has version {}'.format(
-            config.schema_url,
-            standard_schema_version,
-            schema_id,
-            retrieved_schema_version,
+        message = 'Schema version mismatch: {} != {}'.format(
+            standard_schema_version, retrieved_schema_version
         )
         raise click.UsageError(message)
 
 
-def _validate_schema_keys(
-    standard_schema: typing.Dict,
-    retrieved_schema: typing.Dict,
-    config: Config,
-    schema_id: typing.Text,
-) -> typing.Any:
+def _validate_schema_keys(config: Config) -> typing.Any:
     """Validate schema keys.
 
-    :raises click.ClickException
+    :raises click.UsageError
     """
-    standard_keys = config.schema.keys()
-    retrieved_keys = retrieved_schema.keys()
-    key_difference = set(retrieved_keys).difference(set(standard_keys))
-    if key_difference:
-        message = (
-            'Schema key mistmatch.\n'
-            'Found keys "{}" in {} that are not present in {}'
-        ).format(', '.join(key_difference), schema_id, config.schema_url)
+
+    missing_diff = set(config.target_schema) - set(config.standard_schema)
+    if missing_diff:
+        message = 'Unknown schema key(s): "{}" in {}'.format(
+            ', '.join(missing_diff), config.target_schema_url
+        )
+        raise click.UsageError(message)
+
+    unknown_diff = set(config.standard_schema) - set(config.target_schema)
+    if unknown_diff:
+        message = 'Missing schema key(s): "{}" in {}'.format(
+            ', '.join(unknown_diff), config.standard_schema_url
+        )
         raise click.UsageError(message)
 
 
-def _validate_schema(
-    standard_schema: typing.Dict,
-    retrieved_schema: typing.Dict,
-    config: Config,
-    schema_id: typing.Text,
-) -> typing.Any:
-    """Validate a schema."""
-    schema_args = [config.schema, retrieved_schema, config, schema_id]
-    _validate_schema_version(*schema_args)
-    _validate_schema_keys(*schema_args)
-    message = '{} validated successfully!'.format(schema_id)
-    return _success(message, config)
+def _validate_schema(config: Config) -> typing.Any:
+    """Validate a schema against the latest standardised schema."""
+    _validate_schema_version(config)
+    _validate_schema_keys(config)
+    message = '{} validated successfully!'.format(config.target_schema_url)
+    return _success(message, config.colour)
 
 
-def _load_local_schema(schema_path: typing.Text) -> typing.Dict:
+def _load_local_schema(schema: typing.Text) -> typing.Dict:
     """Load a local schema JSON file.
 
-    :raises click.ClickException
+    :raises click.UsageError
     :return A local schema JSON
     """
-    with open(schema_path, 'r') as handle:
-        try:
-            return json.loads(handle.read())
-        except json.decoder.JSONDecodeError:
-            message = 'Unable to decode {} as JSON'.format(schema_path)
-            raise click.ClickException(message)
+    try:
+        with open(schema, 'r') as handle:
+            try:
+                return json.loads(handle.read())
+            except json.decoder.JSONDecodeError:
+                message = 'Unable to decode {} as JSON'.format(schema)
+                raise click.UsageError(message)
+    except FileNotFoundError:
+        message = 'Unable to open {}'.format(schema)
+        raise click.UsageError(message)
 
 
 @click.command()
@@ -117,7 +108,7 @@ def _load_local_schema(schema_path: typing.Text) -> typing.Dict:
     '-u',
     '--url',
     metavar='URL',
-    help='A domain (include HTTP/S scheme) that exposes /librehost.json',
+    help='A domain (with HTTP/S scheme) that exposes /librehost.json',
 )
 @click.option(
     '-S',
@@ -141,41 +132,42 @@ def schema(
     show_schema: bool,
     validate_all: bool,
 ) -> typing.Any:
-    """Compare schema against the latest standardised schema.
-
-    Please see https://librehosters-cli.readthedocs.io/ for examples.
-    """
+    """Compare schema against the latest standardised schema."""
     _validate_option_use(schema, librehoster, url, show_schema, validate_all)
 
     if schema:
-        retrieved = _load_local_schema(schema)
-        _validate_schema(config.schema, retrieved, config, schema)
+        config.target_schema = _load_local_schema(schema)
+        config.target_schema_url = schema
+        _validate_schema(config)
 
     if librehoster:
-        schema_url = config.get_hosted_schema_url(librehoster)
-        retrieved = _get_json(schema_url, config.timeout)
-        _validate_schema(config.schema, retrieved, config, schema_url)
+        config.target_schema_url = config._get_schema_url(librehoster)
+        config.target_schema = _get_json(config.target_schema_url)
+        _validate_schema(config)
 
     if show_schema:
         try:
-            return click.echo(json.dumps(config.schema, indent=2))
+            return click.echo(json.dumps(config.standard_schema, indent=2))
         except TypeError:
-            message = 'Unable to print {}'.format(config.schema)
-            raise click.ClickException(message)
+            message = 'Unable to show {}'.format(config.standard_schema)
+            raise click.UsageError(message)
 
     if url:
         try:
-            schema_url = '{}/librehost.json'.format(url)
-            retrieved = _get_json(schema_url, config.timeout)
-            _validate_schema(config.schema, retrieved, config, url)
+            config.target_schema_url = urllib.parse.urljoin(
+                url, 'librehost.json'
+            )
+            config.target_schema = _get_json(config.target_schema_url)
+            _validate_schema(config)
         except (RequestException, JSONDecodeError):
-            message = 'Unable to retrieve {}'.format(url)
-            raise click.ClickException(message)
+            message = 'Unable to retrieve {}'.format(config.target_schema_url)
+            raise click.UsageError(message)
 
     if validate_all:
-        for librehoster, schema_url in config.directory.items():
-            retrieved = _get_json(schema_url, config.timeout)
+        for librehoster, target_schema_url in config.directory.items():
+            config.target_schema_url = target_schema_url
+            config.target_schema = _get_json(target_schema_url)
             try:
-                _validate_schema(config.schema, retrieved, config, schema_url)
-            except click.ClickException as exception:
+                _validate_schema(config)
+            except click.UsageError as exception:
                 click.echo(str(exception))
