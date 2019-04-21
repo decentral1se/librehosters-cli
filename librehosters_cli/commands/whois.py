@@ -4,7 +4,6 @@ import textwrap
 import typing
 
 import click
-from tabulate import tabulate
 
 from librehosters_cli.config import (
     Config,
@@ -12,6 +11,7 @@ from librehosters_cli.config import (
     pass_config,
 )
 from librehosters_cli.network import _get_json
+from librehosters_cli.print import _to_table
 from librehosters_cli.validate import _validate_option_use
 
 
@@ -40,18 +40,19 @@ def whois(
     if show:
         headers = ['Librehoster', 'Hosted Schema']
         table = [[host, url] for host, url in config.directory.items()]
-        click.echo(tabulate(table, headers=headers, tablefmt='grid'))
+        _to_table(table, headers, config.bare)
 
     if librehoster:
         schema = _get_json(config._get_schema_url(librehoster))
 
+        headers = ['Key', 'Value']
         table = []
         for key, value in schema.items():
             if not isinstance(value, list):
-                formatted = textwrap.fill(str(value), width=50).strip()
-                table.append([key, formatted])
+                if not config.bare:
+                    value = textwrap.fill(str(value), width=50).strip()
+                table.append([key, value])
             else:
                 table.append([key, ', '.join(value)])
 
-        headers = ['Key', 'Value']
-        click.echo(tabulate(table, headers=headers, tablefmt='grid'))
+        _to_table(table, headers, config.bare)
