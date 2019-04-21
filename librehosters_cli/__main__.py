@@ -18,14 +18,8 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help', '--usage'])
     show_default=True,
 )
 @click.option(
-    '--debug/--no-debug',
-    help='Make sure to output debugging statements',
-    default=False,
-    show_default=True,
-)
-@click.option(
     '--colour/--no-colour',
-    help='Use ANSI colours for emphasising some output',
+    help='Use ANSI colours',
     default=True,
     show_default=True,
 )
