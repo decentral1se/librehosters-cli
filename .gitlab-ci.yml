@@ -54,6 +54,11 @@ sphinx:
   script:
     - tox -e docs
 
+towncrier:
+  stage: documentation
+  script:
+    - tox -e changelog
+
 twine:
   stage: packaging
   script:
