@@ -13,11 +13,11 @@ Installation
       --extra-index-url https://pypi.org/simple \
       librehosters-cli
 
-.. warning::
+.. note::
 
     This tool is only supported on Python >= 3.5.
 
-.. warning::
+.. note::
 
     It is highly recommended to use a `virtual environment`_ when installing
     Python packages. You should also consider upgrading your `setuptools`_
