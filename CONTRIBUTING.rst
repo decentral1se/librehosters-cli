@@ -59,6 +59,12 @@ Release Process
 Test release
 ============
 
+Add a change entry and re-generate the changelog:
+
+.. code-block:: bash
+
+    $ towncrier
+
 See `test.pypi.org/librehosters-cli`_ for latest version number.
 
 Pick a new version and expose it in your terminal:
@@ -94,6 +100,12 @@ Validate that you can install the package:
 
 Production release
 ==================
+
+Add a change entry and re-generate the changelog:
+
+.. code-block:: bash
+
+    $ towncrier
 
 Make a new release tag:
 
