@@ -44,7 +44,6 @@ pytest36:
     - tox -e py36-test
 
 pytest37:
-  image: python:3.7.3-stretch
   stage: testing
   script:
     - tox -e py37-test
