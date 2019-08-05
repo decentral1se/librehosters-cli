@@ -41,8 +41,12 @@ Documentation
 Mirroring
 *********
 
-* `git.coop/decentral1se/librehosters-cli`_ (primary)
+* `github.com/decentral1se/librehosters-cli`_
+* `hack.decentral1.se/decentral1se/librehosters-cli`_
 * `lab.libreho.st/decentral1se/librehosters-cli`_
+* `git.coop/decentral1se/librehosters-cli`_
 
+.. _hack.decentral1.se/decentral1se/librehosters-cli: https://hack.decentral1.se/decentral1se/librehosters-cli
+.. _github.com/decentral1se/librehosters-cli: https://github.com/decentral1se/librehosters-cli
 .. _lab.libreho.st/decentral1se/librehosters-cli: https://lab.libreho.st/decentral1se/librehosters-cli
 .. _git.coop/decentral1se/librehosters-cli: https://lab.libreho.st/decentral1se/librehosters-cli
