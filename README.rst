@@ -6,10 +6,6 @@ librehosters-cli
    :target: https://badge.fury.io/py/librehosters-cli
    :alt: PyPI package
 
-.. image:: https://img.shields.io/pypi/dm/librehosters-cli.svg
-   :target: https://badge.fury.io/py/librehosters-cli
-   :alt: PyPi package downloads
-
 .. image:: https://img.shields.io/badge/license-GPL-brightgreen.svg
    :target: LICENSE
    :alt: Repository license
