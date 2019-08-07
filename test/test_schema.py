@@ -19,16 +19,16 @@ def test_validate_schema_version_missing(mock_config, mock_schema):
         del mock_config.standard_schema['version']
         _validate_schema_version(mock_config)
 
-    assert 'Unable to retrieve version' in str(exception)
-    assert mock_config.standard_schema_url in str(exception)
+    assert 'Unable to retrieve version' in str(exception.value)
+    assert mock_config.standard_schema_url in str(exception.value)
 
     with pytest.raises(click.UsageError) as exception:
         mock_config.standard_schema['version'] = schema_version
         del mock_config.target_schema['version']
         _validate_schema_version(mock_config)
 
-    assert 'Unable to retrieve version' in str(exception)
-    assert 'https://foo.org/librehost.json' in str(exception)
+    assert 'Unable to retrieve version' in str(exception.value)
+    assert 'https://foo.org/librehost.json' in str(exception.value)
 
 
 def test_validate_schema_version_mismatch(mock_schema, mock_config):
@@ -41,7 +41,7 @@ def test_validate_schema_version_mismatch(mock_schema, mock_config):
         mock_config.target_schema = bad_schema
         _validate_schema_version(mock_config)
 
-    assert 'Schema version mismatch' in str(exception)
+    assert 'Schema version mismatch' in str(exception.value)
     assert '0.0.1 != 9.9.9'
 
 
@@ -69,8 +69,8 @@ def test_validate_schema_keys_unknown(mock_schema, mock_config):
     with pytest.raises(click.UsageError) as exception:
         assert _validate_schema_keys(mock_config)
 
-    assert 'Unknown schema key(s):' in str(exception)
-    assert '"unknownkey" in foo.json' in str(exception)
+    assert 'Unknown schema key(s):' in str(exception.value)
+    assert '"unknownkey" in foo.json' in str(exception.value)
 
 
 def test_validate_schema_keys_missing(mock_schema, mock_config):
@@ -83,9 +83,9 @@ def test_validate_schema_keys_missing(mock_schema, mock_config):
         mock_config.target_schema = bad_schema
         assert _validate_schema_keys(mock_config) is None
 
-    assert 'Missing schema key(s):' in str(exception)
+    assert 'Missing schema key(s):' in str(exception.value)
     assert '"missingkey" in {}'.format(mock_config.standard_schema_url) in str(
-        exception
+        exception.value
     )
 
 
@@ -112,7 +112,7 @@ def test_load_local_schema_missing_file():
     with pytest.raises(click.UsageError) as exception:
         _load_local_schema('doesnt-exist')
 
-    assert 'Unable to open' in str(exception)
+    assert 'Unable to open' in str(exception.value)
 
 
 def test_validate_local_schema_file(runner, mock_schema):

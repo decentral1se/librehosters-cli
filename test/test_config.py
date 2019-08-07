@@ -22,7 +22,7 @@ def test_get_hosted_schema_url(mock_config, mock_directory):
 
     with pytest.raises(click.UsageError) as exception:
         mock_config._get_schema_url('not-here')
-    assert 'Could not lookup' in str(exception)
+    assert 'Could not lookup' in str(exception.value)
 
 
 def test_retrieve_schema(mock_config, mock_schema):
