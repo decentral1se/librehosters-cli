@@ -22,6 +22,10 @@ librehosters-cli
    :target: https://git.coop/decentral1se/librehosters-cli/commits/master
    :alt: Coverage report
 
+.. image:: https://img.shields.io/badge/support-maintainers-brightgreen.svg
+   :target: https://decentral1.se/
+   :alt: Support badge
+
 Librehosters command line suite
 -------------------------------
 
